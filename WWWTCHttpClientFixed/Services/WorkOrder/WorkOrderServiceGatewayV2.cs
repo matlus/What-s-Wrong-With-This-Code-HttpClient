@@ -28,45 +28,23 @@ namespace WWWTCHttpClientFixed
         private Task<string> Login(string userName, string password)
         {
             var nameValueCollection = new NameValueCollection { { "username", userName }, { "passowrd", password } };
-            return _serviceAgentHttp.PostFormUrlEncodedAsync("login", nameValueCollection);
+            return _serviceAgentHttp.PostFormUrlEncodedAsync("login", nameValueCollection, WorkOrderServiceExceptionTranslator.EnsureSuccess);
         }
 
         private Task<WorkOrderCreateResponse> CreateWorkOrderInternal(WorkOrderForCreate workOrderForCreate, string accessToken)
         {
             var workOrderCreateRequest = MapperWorkOrder.MapToWorkOrderCreateRequest(workOrderForCreate);
-            return _serviceAgentHttp.PostAsJsonAsync<WorkOrderCreateRequest, WorkOrderCreateResponse>("v2", workOrderCreateRequest, "AR-JWT", accessToken);
+            return _serviceAgentHttp.PostAsJsonAsync<WorkOrderCreateRequest, WorkOrderCreateResponse>(
+                "v2",
+                workOrderCreateRequest,
+                "AR-JWT", accessToken,
+                WorkOrderServiceExceptionTranslator.EnsureSuccess);
         }
 
         private Task Logout(string token)
         {
-            return _serviceAgentHttp.PostAsJsonAsync<string, string>("logout", null, "Bearer", token);
+            return _serviceAgentHttp.PostAsJsonAsync<string, string>("logout", null, "Bearer", token, WorkOrderServiceExceptionTranslator.EnsureSuccess);
         }
-
-        ////private static async Task EnsureSuccess(HttpStatusCode statusCode, HttpContent content)
-        ////{
-        ////    if (statusCode == HttpStatusCode.OK)
-        ////    {
-        ////        return;
-        ////    }
-
-        ////    var httpContent = await content.ReadAsStringAsync().ConfigureAwait(false);
-
-        ////    switch (statusCode)
-        ////    {
-        ////        case HttpStatusCode.NotFound:
-        ////            throw new WorkOrderServiceNotFoundException("The Remedy Service call resulted in a Not Found Status Code");
-        ////        case HttpStatusCode.InternalServerError:
-        ////            {
-        ////                if (httpContent.Contains("User is currently connected from another machine or incompatible session.", StringComparison.OrdinalIgnoreCase))
-        ////                {
-        ////                    throw new WorkOrderServiceIncompatibleSessionException($"The Remedy Service call resulted in a status code of: {statusCode}, with body: {httpContent}");
-        ////                }
-        ////                throw new WorkOrderServiceInternalServerException($"The Remedy Service call resulted in a status code of: {statusCode}, with body: {httpContent}");
-        ////            }
-        ////        default:
-        ////            throw new WorkOrderServiceUnexpectedException($"The Remedy Service call resulted in a status code of: {statusCode}, with body: {httpContent}");
-        ////    }
-        ////}
 
         [ExcludeFromCodeCoverage]
         private void Dispose(bool disposing)

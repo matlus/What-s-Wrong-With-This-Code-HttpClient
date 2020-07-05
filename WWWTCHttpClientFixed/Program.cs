@@ -10,7 +10,7 @@ namespace WWWTCHttpClientFixed
             var workOrderForCreate = new WorkOrderForCreate("Title", "This is the Description", DateTime.Now, "shiv.kumar@whotube.com");
             var workOrderServiceSettings = new WorkOrderServiceSettings("skumar", "youtube", "https://localhost:44373/workorder/");
             
-            using var workOrderGateway = new WorkOrderServiceGateway(workOrderServiceSettings);            
+            using var workOrderGateway = new WorkOrderServiceGatewayV2(workOrderServiceSettings);            
             var workOrderId = await workOrderGateway.CreateWorkOrder(workOrderForCreate).ConfigureAwait(false);
 
             Console.WriteLine("Fixed Version");
