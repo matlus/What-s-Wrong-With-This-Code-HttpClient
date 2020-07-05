@@ -75,17 +75,17 @@ namespace WWWTCHttpClientFixed
             switch (statusCode)
             {
                 case HttpStatusCode.NotFound:
-                    throw new WorkOrderServiceNotFoundException("The Remedy Service call resulted in a Not Found Status Code");
+                    throw new WorkOrderServiceNotFoundException("The Work Order Service call resulted in a Not Found Status Code");
                 case HttpStatusCode.InternalServerError:
                     {
                         if (httpContent.Contains("User is currently connected from another machine or incompatible session.", StringComparison.OrdinalIgnoreCase))
                         {
-                            throw new WorkOrderServiceIncompatibleSessionException($"The Remedy Service call resulted in a status code of: {statusCode}, with body: {httpContent}");
+                            throw new WorkOrderServiceIncompatibleSessionException($"The Work Order Service call resulted in a status code of: {statusCode}, with body: {httpContent}");
                         }
-                        throw new WorkOrderServiceInternalServerException($"The Remedy Service call resulted in a status code of: {statusCode}, with body: {httpContent}");
+                        throw new WorkOrderServiceInternalServerException($"The Work Order Service call resulted in a status code of: {statusCode}, with body: {httpContent}");
                     }
                 default:
-                    throw new WorkOrderServiceUnexpectedException($"The Remedy Service call resulted in a status code of: {statusCode}, with body: {httpContent}");
+                    throw new WorkOrderServiceUnexpectedException($"The Work Order Service call resulted in a status code of: {statusCode}, with body: {httpContent}");
             }
         }
 
