@@ -9,9 +9,9 @@ namespace WWWTCHttpClientFixed
     {
         private bool _disposed;
         private ServiceAgentHttp _serviceAgentHttp;
-        private readonly WorkOrderServiceSettings _workOrderServiceSettings;
+        private readonly WorkOrderServiceConnectionInfo _workOrderServiceSettings;
 
-        public WorkOrderServiceGatewayV2(WorkOrderServiceSettings workOrderServiceSettings)
+        public WorkOrderServiceGatewayV2(WorkOrderServiceConnectionInfo workOrderServiceSettings)
         {
             _workOrderServiceSettings = workOrderServiceSettings;
             _serviceAgentHttp = new ServiceAgentHttp(_workOrderServiceSettings.BaseUrl);

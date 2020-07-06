@@ -15,9 +15,9 @@ namespace WWWTCHttpClientFixed
     {
         private bool _disposed;
         private HttpClient _httpClient;
-        private readonly WorkOrderServiceSettings _workOrderServiceSettings;
+        private readonly WorkOrderServiceConnectionInfo _workOrderServiceSettings;
 
-        public WorkOrderServiceGateway(WorkOrderServiceSettings workOrderServiceSettings)
+        public WorkOrderServiceGateway(WorkOrderServiceConnectionInfo workOrderServiceSettings)
         {
             _workOrderServiceSettings = workOrderServiceSettings;
             _httpClient = CreateHttpClient(_workOrderServiceSettings.BaseUrl);

@@ -8,7 +8,7 @@ using WorkOrderService.Models;
 namespace WorkOrderService.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class WorkOrderController : ControllerBase
     {
         [HttpPost("login")]

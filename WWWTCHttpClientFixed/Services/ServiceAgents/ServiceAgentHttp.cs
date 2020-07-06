@@ -33,7 +33,7 @@ namespace WWWTCHttpClientFixed
 
         public async Task<TResult>PostAsJsonAsync<T, TResult>(string requestUrl, T value, Func<HttpResponseMessage, Task> exceptionTranslatorDelegate)
         {
-            var httpResponseMessage = await _httpClient.PostAsync(requestUrl, value, _mediaTypeFormatterCollection.JsonFormatter).ConfigureAwait(false);
+            using var httpResponseMessage = await _httpClient.PostAsync(requestUrl, value, _mediaTypeFormatterCollection.JsonFormatter).ConfigureAwait(false);
             await exceptionTranslatorDelegate(httpResponseMessage);
             return await httpResponseMessage.Content.ReadAsAsync<TResult>();
         }
@@ -47,7 +47,7 @@ namespace WWWTCHttpClientFixed
         public async Task<string> PostFormUrlEncodedAsync(string requestUrl, NameValueCollection nameValueCollection, Func<HttpResponseMessage, Task> exceptionTranslatorDelegate)
         {
             var formUrlEncodedContent = GetUrlEncodedFormData(nameValueCollection);
-            var httpResponseMessage = await _httpClient.PostAsync(requestUrl, formUrlEncodedContent).ConfigureAwait(false);
+            using var httpResponseMessage = await _httpClient.PostAsync(requestUrl, formUrlEncodedContent).ConfigureAwait(false);
             await exceptionTranslatorDelegate(httpResponseMessage);
             return await httpResponseMessage.Content.ReadAsStringAsync();
         }
@@ -55,7 +55,7 @@ namespace WWWTCHttpClientFixed
         public async Task<string> PostAsync(string requestUrl, string content, string mediaType, Func<HttpResponseMessage, Task> exceptionTranslatorDelegate)
         {
             var httpContent = new StringContent(content, Encoding.UTF8, mediaType);
-            var httpResponseMessage = await _httpClient.PostAsync(requestUrl, httpContent);
+            using var httpResponseMessage = await _httpClient.PostAsync(requestUrl, httpContent);
             await exceptionTranslatorDelegate(httpResponseMessage);
             return await httpResponseMessage.Content.ReadAsStringAsync();
         }
